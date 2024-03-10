@@ -17,6 +17,7 @@ public class App
     
     static HashMap<String, Integer> player_value = new HashMap<>();
     static ArrayList<Integer> sortedValues = new ArrayList<>();
+    static StringBuilder richest = new StringBuilder();
     
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
@@ -68,7 +69,7 @@ public class App
           boolean list = App.printOrdered(nameList, coinList, gemList, gemValue);
 
          Map map = new HashMap();
-          map.put("list", list);
+          map.put("richest", richest.toString());
           return new ModelAndView(map, "compute.mustache");
         }, new MustacheTemplateEngine());
 
@@ -76,7 +77,7 @@ public class App
         get("/compute",
             (rq, rs) -> {
               Map map = new HashMap();
-              map.put("list", "not computed yet!");
+              map.put("richest", "not computed yet!");
               return new ModelAndView(map, "compute.mustache");
             },
             new MustacheTemplateEngine());
@@ -117,9 +118,13 @@ public class App
     }
     public static boolean printOrdered(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue){
     	if(!addedToHashMap(playerNames, playerCoins, playerGems, gemValue)) return false;
+    	int point=sortedValues.get(0);//*
     	for(int i=0;i<sortedValues.size();i++){
-    	int point=sortedValues.get(i);
-    	System.out.println((i+1)+"."+player_value.get(point)+"  "+point);
+    	if(sortedValues.get(i)!=point)
+    	return false;
+    	//int point=sortedValues.get(i);
+    	//System.out.println((i+1)+"."+player_value.get(point)+"  "+point);
+    	richest.append(player_value.get(point)+" ");
     	player_value.remove(player_value.get(point));//aynı totale sahip kişilerde aynı isimi dönüp diye
     	}
     return true;
