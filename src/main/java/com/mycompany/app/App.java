@@ -16,7 +16,7 @@ import spark.template.mustache.MustacheTemplateEngine;
 public class App 
 {
     
-    static HashMap<String, Integer> player_value = new HashMap<>();
+    static HashMap<String, Integer> player_value;
     static List<Map.Entry<String, Integer>> sortedList;
     static StringBuilder richest;
     static StringBuilder list;
@@ -96,6 +96,7 @@ public class App
    
     public static boolean addedToHashMap(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue) {
     System.out.println("let's start counting!");
+    player_value = new HashMap<>();
     richest = new StringBuilder();
     list   = new StringBuilder();
     int commonSize=playerNames.size();
