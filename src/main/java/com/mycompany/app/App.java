@@ -110,17 +110,19 @@ public class App
 		 player_value.put(name,total);
 	    }
         sortedList = new ArrayList<>(player_value.entrySet());
-        Collections.sort(sortedList, Collections.reverseOrder(Map.Entry.comparingByValue()));
+        Collections.sort(sortedList, Collections.reverseOrder(Map.Entry.comparingByValue()));//descending order
     return true;
     }
     public static boolean printOrdered(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue){
     	if(!addedToHashMap(playerNames, playerCoins, playerGems, gemValue)) return false;
-    	int point=sortedList.get(0).getValue();//*greatest value
-    	int i=1;
-    	for(Map.Entry<String, Integer> entry : sortedList){
-	    if(entry.getValue()==point)//equality case
-	       richest.append(entry.getKey()+" ");
-    	   list.append((i++)+"."+entry.getKey()+":  "+entry.getValue()+"\n");
+    	int greatest=sortedList.get(0).getValue();//*greatest value
+    	for(int i=0;i<sortedList.size();i++){
+    	Map.Entry<String, Integer> entry=sortedList.get(i);
+	    if(entry.getValue()==greatest){//equality case
+	       if(i>0)richest.append(", ");
+	       richest.append(entry.getKey());
+	       }
+    	   list.append((i+1)+"."+entry.getKey()+":  "+entry.getValue()+"\n");
     	}
     	System.out.println("richest:\n"+richest.toString());
     	System.out.println("list:\n"+list.toString());
