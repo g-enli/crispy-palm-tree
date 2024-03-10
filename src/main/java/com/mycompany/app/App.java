@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
@@ -16,8 +17,9 @@ public class App
 {
     
     static HashMap<String, Integer> player_value = new HashMap<>();
-    static ArrayList<Integer> sortedValues = new ArrayList<>();
-    static StringBuilder richest = new StringBuilder();
+    static List<Map.Entry<String, Integer>> sortedList;
+    static StringBuilder richest;
+    static StringBuilder list;
     
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
@@ -35,7 +37,7 @@ public class App
           java.util.ArrayList<String> nameList = new java.util.ArrayList<>();
           while (sc1.hasNext())
           {
-            String name = sc1.next().replaceAll("\\s","");
+            String name = sc1.next();
             nameList.add(name);
           }
           System.out.println(nameList);
@@ -65,7 +67,8 @@ public class App
           //input4 için
           String input4 = req.queryParams("input4").replaceAll("\\s","");
           int gemValue = Integer.parseInt(input4);
-
+          System.out.println(gemValue);
+          
           boolean list = App.printOrdered(nameList, coinList, gemList, gemValue);
 
          Map map = new HashMap();
@@ -90,18 +93,11 @@ public class App
         }
         return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
-    
-    public static boolean search(ArrayList<Integer> array, int e) {
-    System.out.println("inside search");
-	if (array == null) return false;
-	    for (int elt : array) {
-		 if (elt == e) return true;
-	    }
-    return false;
-    }
-    
+   
     public static boolean addedToHashMap(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue) {
     System.out.println("let's start counting!");
+    richest = new StringBuilder();
+    list   = new StringBuilder();
     int commonSize=playerNames.size();
 	if (playerNames == null || playerCoins == null || playerGems == null) return false;//we don't want arraylists to be null(nullpointer exception)
 	if (playerCoins.size()!=commonSize || playerGems.size()!=commonSize) return false;
@@ -111,22 +107,22 @@ public class App
 	    	 String name=playerNames.get(i);
 	    	 int total=playerCoins.get(i)+playerGems.get(i)*gemValue;
 		 player_value.put(name,total);
-		 sortedValues.add(total);
 	    }
-	    Collections.sort(sortedValues);
+        sortedList = new ArrayList<>(player_value.entrySet());
+        Collections.sort(sortedList, Collections.reverseOrder(Map.Entry.comparingByValue()));
     return true;
     }
     public static boolean printOrdered(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue){
     	if(!addedToHashMap(playerNames, playerCoins, playerGems, gemValue)) return false;
-    	int point=sortedValues.get(0);//*
-    	for(int i=0;i<sortedValues.size();i++){
-    	if(sortedValues.get(i)!=point)
-    	return false;
-    	//int point=sortedValues.get(i);
-    	//System.out.println((i+1)+"."+player_value.get(point)+"  "+point);
-    	richest.append(player_value.get(point)+" ");
-    	player_value.remove(player_value.get(point));//aynı totale sahip kişilerde aynı isimi dönüp diye
+    	int point=sortedList.get(0).getValue();//*greatest value
+    	int i=1;
+    	for(Map.Entry<String, Integer> entry : sortedList){
+	    if(entry.getValue()==point)//equality case
+	       richest.append(entry.getKey()+" ");
+    	   list.append((i++)+"."+entry.getKey()+":  "+entry.getValue()+"\n");
     	}
+    	System.out.println("richest:\n"+richest.toString());
+    	System.out.println("list:\n"+list.toString());
     return true;
     }  
 }
