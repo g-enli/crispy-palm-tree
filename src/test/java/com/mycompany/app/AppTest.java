@@ -31,31 +31,24 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+     public void testEmptyArray() {
+    	ArrayList<String> names = new ArrayList<>();
+	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
+	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(5, 3, 2, 1));
+	assertFalse(new App().printOrdered(names, coins, gems, 10));
     }
-
-     public void testFound() {
-      ArrayList<Integer> array = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
-      assertTrue(new App().search(array, 4));
+    
+    public void testNegativeGemVal() {
+	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
+	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
+	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(5, 3, 2, 1));
+	assertFalse(new App().printOrdered(names, coins,gems,-1));
     }
-
+    
     public void testNotFound() {
-      ArrayList<Integer> array = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
-      assertFalse(new App().search(array, 5));
+	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
+	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 10, 10, 10));
+	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(1, 1, 1, 1));
+	assertTrue(new App().printOrdered(names, coins,gems,1));
     }
-
-    public void testEmptyArray() {
-      ArrayList<Integer> array = new ArrayList<>();
-      assertFalse(new App().search(array, 1));
-    }
-
-    public void testNull() {
-      assertFalse(new App().search(null, 1));
-    }
-
 }
