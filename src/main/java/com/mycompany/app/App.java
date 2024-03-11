@@ -66,7 +66,8 @@ public class App
           System.out.println(gemList);
           //input4 için
           String input4 = req.queryParams("input4").replaceAll("\\s","");
-          if (input4!="" || input4!=null)//or will get 500 internal error
+          if (input4=="")
+          input4="0";
           int gemValue = Integer.parseInt(input4);
           System.out.println(gemValue);
           
