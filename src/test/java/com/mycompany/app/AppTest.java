@@ -56,16 +56,18 @@ public class AppTest
 	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 10, 10, 10));
 	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(1, 1, 1, 1));
-	new App().printOrdered(names, coins,gems,1);
-	assertEqual("ayşe, ali, ahmet, fatma",getRichest());//valid inputs equality case
+	App app = new App();
+	app.printOrdered(names, coins,gems,1);
+	assertEqual("ayşe, ali, ahmet, fatma",app.getRichest());//valid inputs equality case
     }
     
     public void testOneRich() {
 	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 10, 10, 10));
 	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(100, 1, 1, 1));
-	new App().printOrdered(names, coins,gems,10);
-	assertEqual("ayşe",getRichest());//valid inputs one richest
+	App app = new App();
+	app.printOrdered(names, coins,gems,10);
+	assertEqual("ayşe",app.getRichest());//valid inputs one richest
     }
      
     public void testNegativeInArrays() {
