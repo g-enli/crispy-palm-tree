@@ -137,7 +137,7 @@ public class App
        }
     return false;
     }
-    
+     
     public static String getRichest(){
     return richest.toString();
     }

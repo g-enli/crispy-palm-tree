@@ -67,7 +67,7 @@ public class AppTest
 	new App().printOrdered(names, coins,gems,10);
 	assertEqual("ayşe",getRichest());//valid inputs one richest
     }
-    
+     
     public void testNegativeInArrays() {
 	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(-10, 10, 10, 10));
