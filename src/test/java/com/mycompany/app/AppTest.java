@@ -31,8 +31,15 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
+    public void testNull() {
+    	ArrayList<String> names = null;//null
+	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
+	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(5, 3, 2, 1));
+	assertFalse(new App().printOrdered(names, coins, gems, 10));
+    }
+
      public void testEmptyArray() {
-    	ArrayList<String> names = new ArrayList<>();
+    	ArrayList<String> names = new ArrayList<>();//empty player name list
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
 	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(5, 3, 2, 1));
 	assertFalse(new App().printOrdered(names, coins, gems, 10));
@@ -42,13 +49,29 @@ public class AppTest
 	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
 	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(5, 3, 2, 1));
-	assertFalse(new App().printOrdered(names, coins,gems,-1));
+	assertFalse(new App().printOrdered(names, coins,gems,-1));//negative gemstone value -1
     }
     
-    public void testNotFound() {
+    public void testEquality() {
 	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 10, 10, 10));
 	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(1, 1, 1, 1));
-	assertTrue(new App().printOrdered(names, coins,gems,1));
+	new App().printOrdered(names, coins,gems,1);
+	assertEqual("ayşe, ali, ahmet, fatma",getRichest());//valid inputs equality case
+    }
+    
+    public void testOneRich() {
+	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
+	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 10, 10, 10));
+	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(100, 1, 1, 1));
+	new App().printOrdered(names, coins,gems,10);
+	assertEqual("ayşe",getRichest());//valid inputs one richest
+    }
+    
+    public void testNegativeInArrays() {
+	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
+	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(-10, 10, 10, 10));
+	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(100, 1, 1, 1));
+	assertFalse(new App().printOrdered(names, coins,gems,10));//negative coin 
     }
 }

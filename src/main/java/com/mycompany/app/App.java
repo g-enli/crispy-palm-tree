@@ -16,10 +16,10 @@ import spark.template.mustache.MustacheTemplateEngine;
 public class App 
 {
     
-    static HashMap<String, Integer> player_value;
-    static List<Map.Entry<String, Integer>> sortedList;
-    static StringBuilder richest;
-    static StringBuilder list;
+    private static HashMap<String, Integer> player_value;
+    private static List<Map.Entry<String, Integer>> sortedList;
+    private static StringBuilder richest;
+    private static StringBuilder list;
     
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
@@ -66,6 +66,7 @@ public class App
           System.out.println(gemList);
           //input4 için
           String input4 = req.queryParams("input4").replaceAll("\\s","");
+          if (input4!="" || input4!=null)//or will get 500 internal error
           int gemValue = Integer.parseInt(input4);
           System.out.println(gemValue);
           
@@ -101,9 +102,10 @@ public class App
     list   = new StringBuilder();
     int commonSize=playerNames.size();
 	if (playerNames == null || playerCoins == null || playerGems == null) return false;//we don't want arraylists to be null(nullpointer exception)
-	if (playerCoins.size()!=commonSize || playerGems.size()!=commonSize) return false;
+	if (hasNegative(playerCoins) || hasNegative(playerGems)) return false;//can't be in debt with coins or gems
+	if (playerCoins.size()!=commonSize || playerGems.size()!=commonSize) return false;//a player should have it's coin and gem input given
 	if (gemValue<=0) return false;
-	//gem ya da coin negatif olabilir mi? (emin değilim)
+	
 	    for (int i=0;i<playerNames.size();i++) {
 	    	 String name=playerNames.get(i);
 	    	 int total=playerCoins.get(i)+playerGems.get(i)*gemValue;
@@ -128,4 +130,15 @@ public class App
     	System.out.println("list:\n"+list.toString());
     return true;
     }  
+    
+    public static boolean hasNegative(ArrayList<Integer> array) {//to check it doesn't have any negative value elements in list
+       for (int e : array) {
+	    if (e<0) return true;
+       }
+    return false;
+    }
+    
+    public static String getRichest(){
+    return richest.toString();
+    }
 }
