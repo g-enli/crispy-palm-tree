@@ -30,7 +30,14 @@ public class AppTest
     {
         return new TestSuite( AppTest.class );
     }
-
+	
+    public void testNullArray() {
+    	ArrayList<String> names = null;//empty player name list
+	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
+	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(5, 3, 2, 1));
+	assertFalse(new App().printOrdered(names, coins, gems, 10));
+    }
+    
      public void testEmptyArray() {
     	ArrayList<String> names = new ArrayList<>();//empty player name list
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
