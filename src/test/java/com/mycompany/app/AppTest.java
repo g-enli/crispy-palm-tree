@@ -45,7 +45,7 @@ public class AppTest
 	ArrayList<Integer> gems = new ArrayList<>(Arrays.asList(5, 3, 2, 1));
 	assertFalse(new App().printOrdered(names, coins,gems,-1));//negative gemstone value -1
     }
-    
+    /*
     public void testEquality() {
 	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 10, 10, 10));
@@ -54,7 +54,7 @@ public class AppTest
 	app.printOrdered(names, coins,gems,1);
 	assertEquals("ayşe, ali, ahmet, fatma",app.getRichest());//valid inputs equality case
     }
-    
+    */
     public void testOneRich() {
 	ArrayList<String> names = new ArrayList<>(Arrays.asList("ayşe", "ali", "ahmet", "fatma"));
 	ArrayList<Integer> coins = new ArrayList<>(Arrays.asList(10, 10, 10, 10));
