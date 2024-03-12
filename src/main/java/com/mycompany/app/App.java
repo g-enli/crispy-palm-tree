@@ -4,12 +4,7 @@ import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
 
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.AbstractMap;
+import java.util.*;
 
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
@@ -17,7 +12,6 @@ import spark.template.mustache.MustacheTemplateEngine;
 public class App 
 {
     
-    private static HashMap<String, Integer> player_value;
     private static List<Map.Entry<String, Integer>> sortedList;
     private static StringBuilder richest;
     private static StringBuilder list;
@@ -89,7 +83,7 @@ public class App
             new MustacheTemplateEngine());
     }
 
-    static int getHerokuAssignedPort() {
+    static int getHerokuAssignedPort() { 
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
             return Integer.parseInt(processBuilder.environment().get("PORT"));
@@ -97,28 +91,30 @@ public class App
         return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
    
-    public static boolean addedToHashMap(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue) {
+    public static boolean addedToList(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue) {
     System.out.println("let's start counting!");
-    player_value = new HashMap<>();
+    
     richest = new StringBuilder();
     list   = new StringBuilder();
-    int commonSize=playerNames.size();
+    sortedList = new ArrayList<>();
+    
 	if (playerNames == null || playerCoins == null || playerGems == null) return false;//we don't want arraylists to be null(nullpointer exception)
 	if (hasNegative(playerCoins) || hasNegative(playerGems)) return false;//can't be in debt with coins or gems
+	
+	int commonSize=playerNames.size();
 	if (playerCoins.size()!=commonSize || playerGems.size()!=commonSize) return false;//a player should have it's coin and gem input given
 	if (gemValue<=0) return false;
-	
-	    for (int i=0;i<playerNames.size();i++) {
-	    	 String name=playerNames.get(i);
-	    	 int total=playerCoins.get(i)+playerGems.get(i)*gemValue;
-		 player_value.put(name,total);
-	    }
-        sortedList = new ArrayList<>(player_value.entrySet());
+	 
+	for (int i = 0; i < commonSize; i++) {//to make it stable use list
+	     String name=playerNames.get(i);
+    	     int total=playerCoins.get(i)+playerGems.get(i)*gemValue;
+	    sortedList.add(new AbstractMap.SimpleEntry<>(name, total));
+	}
         Collections.sort(sortedList, Collections.reverseOrder(Map.Entry.comparingByValue()));//descending order
     return true;
     }
     public static boolean printOrdered(ArrayList<String> playerNames,ArrayList<Integer> playerCoins,ArrayList<Integer> playerGems,int gemValue){
-    	if(!addedToHashMap(playerNames, playerCoins, playerGems, gemValue)) return false;
+    	if(!addedToList(playerNames, playerCoins, playerGems, gemValue)) return false;
     	int greatest=sortedList.get(0).getValue();//*greatest value
     	for(int i=0;i<sortedList.size();i++){
     	Map.Entry<String, Integer> entry=sortedList.get(i);
