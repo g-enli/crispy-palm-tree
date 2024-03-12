@@ -11,6 +11,6 @@ total money=coins+gems*gemValue
 
 orders total money and prints the richest
 
-https://github.com/g-enli/crispy-palm-tree/actions
+Github actions:https://github.com/g-enli/crispy-palm-tree/actions
 
 Demo site:https://guarded-eyrie-20268-cdb14b76a527.herokuapp.com
